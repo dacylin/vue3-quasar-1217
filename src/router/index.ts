@@ -1,35 +1,41 @@
-import { defineRouter } from '#q-app/wrappers';
-import {
-  createMemoryHistory,
-  createRouter,
-  createWebHashHistory,
-  createWebHistory,
-} from 'vue-router';
-import routes from './routes';
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import HomePage from "../views/HomePage.vue";
+import ProductList from "../views/ProductList.vue";
+import CreateProduct from "../views/CreateProduct.vue";
+import UserInfo from "../views/UserInfo.vue";
+import ApiFetchTest from "../views/ApiFetchTest.vue";
 
-/*
- * If not building with SSR mode, you can
- * directly export the Router instantiation;
- *
- * The function below can be async too; either use
- * async/await or return a Promise which resolves
- * with the Router instance.
- */
+const routes: Array<RouteRecordRaw> = [
+  {
+    path: "/",
+    name: "home",
+    component: HomePage,
+  },
+  {
+    path: "/productList",
+    name: "product-list",
+    component: ProductList,
+  },
+  {
+    path: "/createProduct",
+    name: "create-product",
+    component: CreateProduct,
+  },
+  {
+    path: "/userInfo",
+    name: "user-info",
+    component: UserInfo,
+  },
+  {
+    path: "/Api-test",
+    name: "api-test",
+    component: ApiFetchTest,
+  },
+];
 
-export default defineRouter(function (/* { store, ssrContext } */) {
-  const createHistory = process.env.SERVER
-    ? createMemoryHistory
-    : (process.env.VUE_ROUTER_MODE === 'history' ? createWebHistory : createWebHashHistory);
-
-  const Router = createRouter({
-    scrollBehavior: () => ({ left: 0, top: 0 }),
-    routes,
-
-    // Leave this as is and make changes in quasar.conf.js instead!
-    // quasar.conf.js -> build -> vueRouterMode
-    // quasar.conf.js -> build -> publicPath
-    history: createHistory(process.env.VUE_ROUTER_BASE),
-  });
-
-  return Router;
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes,
 });
+
+export default router;
